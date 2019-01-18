@@ -1601,7 +1601,10 @@ var defaults = {
   , disabled          : false
   , disabledOpacity   : 0.5
   , speed             : '0.4s'
-  , size              : 'default'
+	, size              : 'default'
+	, collapse          : false
+	, collapseid        : '#collapsable'
+	, expanded  				: false
 };
 
 /**
@@ -1659,8 +1662,15 @@ Switchery.prototype.show = function() {
 Switchery.prototype.create = function() {
   this.switcher = document.createElement('span');
   this.jack = document.createElement('small');
-  this.switcher.appendChild(this.jack);
-  this.switcher.className = this.options.className;
+	this.switcher.appendChild(this.jack);
+	if(this.options.collapse)
+	{
+		this.switcher.setAttribute('data-toggle', 'collapse'); 
+		this.switcher.setAttribute('aria-expanded', this.options.expanded);
+		this.switcher.setAttribute('data-target', this.options.collapseid); 
+		this.switcher.setAttribute('aria-controls', this.options.collapseid); 
+	}
+	this.switcher.className = this.options.className;
   this.events = events(this.switcher, this);
 
   return this.switcher;
